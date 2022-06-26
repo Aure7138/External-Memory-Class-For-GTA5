@@ -32,7 +32,7 @@ namespace Aure
 			T ret;
 			for (SIZE_T i = 0; i < offsets.size(); i++)
 			{
-				if (BaseAddress == 0) return 0;
+				if (BaseAddress == 0) return T();
 				read<DWORD_PTR>(LPCVOID(BaseAddress), &BaseAddress);
 				BaseAddress += offsets[i];
 			}
@@ -43,7 +43,7 @@ namespace Aure
 		{
 			for (SIZE_T i = 0; i < offsets.size(); i++)
 			{
-				if (BaseAddress == 0) return 0;
+				if (BaseAddress == 0) return ;
 				read<DWORD_PTR>(LPCVOID(BaseAddress), &BaseAddress);
 				BaseAddress += offsets[i];
 			}
@@ -64,6 +64,13 @@ namespace Aure
 		template<typename T> T GL(std::string name, int index) { return r<T>(LA(name, index)); }
 		template<typename T> void SL(std::string name, int index, T value) { w<T>(LA(name, index), {}, value); }
 		bool get_blip(int64_t &blip, std::vector<int> icons, std::vector<int> colors = {});
+
+		Vector3 get_blip_pos(int64_t blip);
+		int64_t get_local_ped();
+		int64_t ped_get_current_vehicle(int64_t ped);
+		bool ped_is_in_vehicle(int64_t ped);
+		void entity_set_position(int64_t entity, Vector3 pos);
+		void to_waypoint(int64_t ped);
 	};
 	inline GTA5* gta5;
 	uint32_t joaat(std::string str);

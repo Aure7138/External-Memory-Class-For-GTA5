@@ -25,9 +25,12 @@ int main()
     std::cout << "NightvisionADDR:   " << std::hex << g_pointers->NightvisionADDR << "\n";
     std::cout << "BlackoutADDR:      " << std::hex << g_pointers->BlackoutADDR << "\n";
 
+    std::cout << "\nF5 Teleport To Waypoint\n";
+
 	while (g_running && gta5->is_running())
 	{
-		Sleep(100);
+        if (GetAsyncKeyState(VK_F5) & 0x8000) gta5->to_waypoint(gta5->get_local_ped());
+		Sleep(1);
 	}
 	gta5_instance.reset();
 	pointers_instance.reset();

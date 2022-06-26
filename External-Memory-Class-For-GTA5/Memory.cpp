@@ -188,4 +188,29 @@ namespace Aure
         hash = hash + (hash << 15);
         return hash & Uint32;
     }
+
+    Vector3 GTA5::get_blip_pos(int64_t blip) { return  r<Vector3>(blip + 0x10); }
+
+    int64_t GTA5::get_local_ped() { return r<int64_t>(g_pointers->WorldPTR, { 0x8 }); }
+
+    int64_t GTA5::ped_get_current_vehicle(int64_t ped) { return r<int64_t>(ped + 0xD30); }
+
+    bool GTA5::ped_is_in_vehicle(int64_t ped) { return r<byte>(ped + 0xE52) == 0 ? false : true; }
+
+    void GTA5::entity_set_position(int64_t entity, Vector3 pos)
+    {
+        w<Vector3>(entity + 0x30, { 0x50 }, pos);
+        w<Vector3>(entity + 0x90, {}, pos);
+    }
+
+    void GTA5::to_waypoint(int64_t ped)
+    {
+        int64_t blip;
+        if (!get_blip(blip, { 8 }, { 84 })) return;
+        int64_t entity = ped_is_in_vehicle(ped) ? ped_get_current_vehicle(ped) : ped;
+        Vector3 pos = get_blip_pos(blip);
+        pos.z += 1;
+        if (pos.z == 21.0) pos.z = -225.0;
+        entity_set_position(entity, pos);
+    }
 }

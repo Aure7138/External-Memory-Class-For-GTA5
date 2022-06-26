@@ -36,3 +36,5 @@ namespace Aure
 
 	inline std::atomic_bool g_running{ true };
 }
+
+struct Vector3 { float x; float y; float z; };
